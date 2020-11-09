@@ -1,0 +1,53 @@
+<html lang="en">
+    <!-- 
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            Blog <%= title %>
+        </title>
+    </head>
+    -->
+    <%- include('./partials/head.ejs') %>
+    <body>
+        <!-- 
+        <nav>
+            <div class="side-title">
+                <a href="/"><h1>Blog</h1></a>
+                <p>A Ritwik site</p>
+            </div>
+            <ul>
+                <li><a href="/">Blogs</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/blogs/create">New Blog</a></li>
+            </ul>
+        </nav>
+        -->
+        <%- include('./partials/nav.ejs') %>
+        
+        <div class="details content">
+            <h2><%= bblog.title %></h2>
+
+            <div class="content">
+              <p><%= bblog.body %></p>
+              <p><%= bblog.createdAt %></p>
+            </div>
+            <a class="delete" data-doc="<%= bblog._id %>"><img src="/trashcan.svg"></a>
+          </div>
+        <%- include('./partials/footer.ejs') %>
+        
+        <script>
+            const trashcan = document.querySelector('a.delete');
+            trashcan.addEventListener('click', (e) => {
+              const endpoint = `/blogs/${trashcan.dataset.doc}`;
+              fetch(endpoint, {
+                method: 'DELETE',
+              })
+              .then(response => response.json())
+              .then(data => window.location.href = data.redirect)
+              .catch(err => console.log(err));
+            });
+          </script>
+
+    </body>
+</html>
